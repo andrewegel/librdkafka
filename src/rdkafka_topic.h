@@ -108,6 +108,7 @@ struct rd_kafka_topic_s {
                                                    * that are not yet seen
                                                    * in the cluster. */
 
+        rd_ts_t            rkt_ts_create;   /**< Topic object creation time. */
 	rd_ts_t            rkt_ts_metadata; /* Timestamp of last metadata
 					     * update for this topic. */
 
