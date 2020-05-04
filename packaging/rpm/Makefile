@@ -30,6 +30,7 @@ build_prepare: archive
 
 srpm: build_prepare
 	/usr/bin/mock \
+		$(MOCK_OPTIONS) \
 		-r $(MOCK_CONFIG) \
 		--define "__version $(VERSION)" \
 		--define "__release $(BUILD_NUMBER)" \
@@ -45,6 +46,7 @@ srpm: build_prepare
 
 rpm: srpm
 	/usr/bin/mock \
+		$(MOCK_OPTIONS) \
 		-r $(MOCK_CONFIG) \
 		--define "__version $(VERSION)"\
 		--define "__release $(BUILD_NUMBER)"\
@@ -60,7 +62,7 @@ copy-artifacts:
 
 clean:
 	rm -rf SOURCES
-	/usr/bin/mock -r $(MOCK_CONFIG) --clean
+	/usr/bin/mock -r $(MOCK_CONFIG) $(MOCK_OPTIONS) --clean
 
 distclean: clean
 	rm -f build.log root.log state.log available_pkgs installed_pkgs \
@@ -79,8 +81,8 @@ prepare_ubuntu:
 	cp *.cfg /etc/mock/
 	addgroup --system mock || true
 	adduser $$(whoami) mock
-	/usr/bin/mock -r $(MOCK_CONFIG) --init
-	/usr/bin/mock -r $(MOCK_CONFIG) \
+	/usr/bin/mock $(MOCK_OPTIONS) -r $(MOCK_CONFIG) --init
+	/usr/bin/mock $(MOCK_OPTIONS) -r $(MOCK_CONFIG) \
 		--enable-network \
 		--no-cleanup-after \
 		--install epel-release shadow-utils
